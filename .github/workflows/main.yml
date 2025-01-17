@@ -14,10 +14,36 @@ jobs:
     steps:
       - name: Obtendo o código do projeto
         uses: actions/checkout@v4
+
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.0.300"
+
       - name: Execução do comando build
         working-directory: ./src
         run: dotnet build Review-Filmes.sln
+  
+  release:
+    name: Criação de Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtendo o código do projeto
+        uses: actions/checkout@v4
+
+      - name: Efetuando o login no Docker Hub
+        uses: docker/login-action@v3
+        with:
+            username: ${{ secrets.DOCKER_USER }}
+            password: ${{ secrets.DOCKER_PWD }}
+      
+      - name: Build e Push da Imagem docker
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          context: ./src
+          file: ./src/Review-Filmes.Web/Dockerfile
+          tags: |
+            ${{ secrets.DOCKER_USER }}/projeto-devops-pro:latest
+            ${{ secrets.DOCKER_USER }}/projeto-devops-pro:v${{ github.run_number }}
+
