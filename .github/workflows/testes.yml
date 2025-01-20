@@ -79,13 +79,11 @@ jobs:
 
         - name: Build e Analise
           working-directory: ./src
-          env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           run: |
             dotnet sonarscanner begin \
             /o:"jonatasmarins" \
             /k:"jonatasmarins_devops-pro-ci-cd" \
             /d:sonar.host.url="https://sonarcloud.io" \
-            /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+            /d:sonar.token="${{ env.SONAR_TOKEN }}"
             dotnet build Review-Filmes.sln
-            dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"    
+            dotnet sonarscanner end /d:sonar.token="${{ env.SONAR_TOKEN }}"    
