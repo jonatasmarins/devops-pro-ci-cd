@@ -27,6 +27,7 @@ jobs:
   testes:
     needs: [build]
     uses: jonatasmarins/devops-pro-ci-cd/.github/workflows/testes.yml@main
+    secrets: inherit
   
   release:
     name: Criação de Release
