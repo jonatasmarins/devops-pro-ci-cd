@@ -68,10 +68,10 @@ jobs:
         - name: Run SonarQube Analysis
           uses: sonarsource/sonarcloud-github-action@v1
           with:
-            organization: 'my-org'
+            organization: 'JonatasMarins'
             token: ${{ secrets.SONAR_TOKEN }}
-            projectKey: 'my-project-key'
-            projectName: 'my-project'
+            projectKey: 'jonatasmarins_devops-pro-ci-cd'
+            projectName: 'devops-pro-ci-cd'
         
         - name: Instalação do sonarqube scanner
           run: dotnet tool install --global dotnet-sonarscanner
