@@ -65,13 +65,14 @@ jobs:
           with:
             dotnet-version: "8.0.300"
 
-        - name: Run SonarQube Analysis
-          uses: sonarsource/sonarcloud-github-action@v1
-          with:
-            organization: 'JonatasMarins'
-            token: ${{ secrets.SONAR_TOKEN }}
-            projectKey: 'jonatasmarins_devops-pro-ci-cd'
-            projectName: 'devops-pro-ci-cd'
+        # - name: Run SonarQube Analysis
+        #   uses: sonarsource/sonarcloud-github-action@v1
+        #   with:
+        #     projectBaseDir: './src'
+        #     organization: 'JonatasMarins'
+        #     token: ${{ secrets.SONAR_TOKEN }}
+        #     projectKey: 'jonatasmarins_devops-pro-ci-cd'
+        #     projectName: 'devops-pro-ci-cd'
         
         - name: Instalação do sonarqube scanner
           run: dotnet tool install --global dotnet-sonarscanner
