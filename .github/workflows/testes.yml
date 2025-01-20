@@ -64,15 +64,6 @@ jobs:
           uses: actions/setup-dotnet@v4
           with:
             dotnet-version: "8.0.300"
-
-        # - name: Run SonarQube Analysis
-        #   uses: sonarsource/sonarcloud-github-action@v1
-        #   with:
-        #     projectBaseDir: './src'
-        #     organization: 'JonatasMarins'
-        #     token: ${{ secrets.SONAR_TOKEN }}
-        #     projectKey: 'jonatasmarins_devops-pro-ci-cd'
-        #     projectName: 'devops-pro-ci-cd'
         
         - name: Instalação do sonarqube scanner
           run: dotnet tool install --global dotnet-sonarscanner
@@ -87,3 +78,16 @@ jobs:
             /d:sonar.token="${{ vars.SONAR_TOKEN }}"
             dotnet build Review-Filmes.sln
             dotnet sonarscanner end /d:sonar.token="${{ vars.SONAR_TOKEN }}"    
+        
+        - name: Verificação do Quality Gate                
+          id: sonarqube-quality-gate-check
+          uses: sonarsource/sonarqube-quality-gate-action@master
+          with:
+            scanMetadataReportFile: ./src/.sonarqube/out/.sonar/report-task.txt
+          env:
+            SONAR_TOKEN: ${{ vars.SONAR_TOKEN }}
+            SONAR_HOST_URL: "https://sonarcloud.io" #OPTIONAL
+
+        - name: "Status do Quality Gate"
+          if: ${{ always() }}
+          run: echo "O status do Quality Gate é ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
