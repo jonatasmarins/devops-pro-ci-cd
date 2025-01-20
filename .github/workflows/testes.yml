@@ -64,20 +64,30 @@ jobs:
           uses: actions/setup-dotnet@v4
           with:
             dotnet-version: "8.0.300"
-        
-        # - name: Instalação do sonarqube scanner
-        #   run: dotnet tool install --global dotnet-sonarscanner
 
-        # - name: Build e Analise
-        #   working-directory: ./src
-        #   run: |
-        #     dotnet sonarscanner begin \
-        #     /o:"jonatasmarins" \
-        #     /k:"jonatasmarins_devops-pro-ci-cd" \
-        #     /d:sonar.host.url="https://sonarcloud.io" \
-        #     /d:sonar.token="89a1f35d2a1eeca5a7653f344be394a9db4e8453"
-        #     dotnet build Review-Filmes.sln
-        #     dotnet sonarscanner end /d:sonar.token="89a1f35d2a1eeca5a7653f344be394a9db4e8453"
+        - name: Run SonarQube Analysis
+          uses: sonarsource/sonarcloud-github-action@v1
+          with:
+            organization: 'my-org'
+            token: ${{ secrets.SONAR_TOKEN }}
+            projectKey: 'my-project-key'
+            projectName: 'my-project'
+        
+        - name: Instalação do sonarqube scanner
+          run: dotnet tool install --global dotnet-sonarscanner
+
+        - name: Build e Analise
+          working-directory: ./src
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          run: |
+            dotnet sonarscanner begin \
+            /o:"jonatasmarins" \
+            /k:"jonatasmarins_devops-pro-ci-cd" \
+            /d:sonar.host.url="https://sonarcloud.io" \
+            /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+            dotnet build Review-Filmes.sln
+            dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
           
           
