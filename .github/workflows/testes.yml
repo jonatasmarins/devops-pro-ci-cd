@@ -76,7 +76,7 @@ jobs:
             /k:"jonatasmarins_devops-pro-ci-cd" \
             /d:sonar.host.url="https://sonarcloud.io" \
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-            /d:sonar.exclusions="**/*"
+            /d:sonar.coverage.reportPaths=""            
             dotnet build Review-Filmes.sln
             dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"                
         
