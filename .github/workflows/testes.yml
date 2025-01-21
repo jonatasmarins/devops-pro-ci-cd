@@ -76,8 +76,9 @@ jobs:
             /k:"jonatasmarins_devops-pro-ci-cd" \
             /d:sonar.host.url="https://sonarcloud.io" \
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+            /d:sonar.coverage.exclusions="**/src/**"
             dotnet build Review-Filmes.sln
-            dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.exclusions="**/src/**"                
+            dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"                
         
         - name: Verificação do Quality Gate                
           id: sonarqube-quality-gate-check
