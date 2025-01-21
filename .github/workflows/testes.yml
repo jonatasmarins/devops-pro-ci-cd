@@ -75,9 +75,9 @@ jobs:
             /o:"jonatasmarins" \
             /k:"jonatasmarins_devops-pro-ci-cd" \
             /d:sonar.host.url="https://sonarcloud.io" \
-            /d:sonar.token="${{ vars.SONAR_TOKEN }}"
+            /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
             dotnet build Review-Filmes.sln
-            dotnet sonarscanner end /d:sonar.token="${{ vars.SONAR_TOKEN }}"    
+            dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"    
         
         - name: Verificação do Quality Gate                
           id: sonarqube-quality-gate-check
@@ -85,9 +85,9 @@ jobs:
           with:
             scanMetadataReportFile: ./src/.sonarqube/out/.sonar/report-task.txt
           env:
-            SONAR_TOKEN: ${{ vars.SONAR_TOKEN }}
-            SONAR_HOST_URL: "https://sonarcloud.io" #OPTIONAL
-
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            SONAR_HOST_URL: "https://sonarcloud.io"
+            
         - name: "Status do Quality Gate"
           if: ${{ always() }}
           run: echo "O status do Quality Gate é ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
